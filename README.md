@@ -1,6 +1,8 @@
-# Overview
+# LDAK-Heritability-Calculation
 This repository provides a [Nextflow (DSL2)](https://nextflow.io) workflow for estimating heritability of complex traits using SNPs, INDELs, and structural variants (SVs) based on [LDAK](https://github.com/dougspeed/LDAK).
 The pipeline supports single-variant-type and multi-GRM (MGRM) REML analyses across multiple phenotypes, enabling systematic partitioning of genetic variance with support for user-provided covariate files (e.g PCA from `plink2`).
+
+![Workflow](./workflow.png)
 
 ## Requirments
 The following software must be installed and available in the **system environment ($PATH)** before running the pipeline:
