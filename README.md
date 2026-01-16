@@ -1,14 +1,17 @@
 # Overview
 This repository provides a [Nextflow (DSL2)](https://nextflow.io) workflow for estimating heritability of complex traits using SNPs, INDELs, and structural variants (SVs) based on [LDAK](https://github.com/dougspeed/LDAK).
-The pipeline supports single-variant-type and multi-GRM (MGRM) REML analyses across multiple phenotypes, enabling systematic partitioning of genetic variance with support for user-provided covariate files (e.g PCA from plink2).
+The pipeline supports single-variant-type and multi-GRM (MGRM) REML analyses across multiple phenotypes, enabling systematic partitioning of genetic variance with support for user-provided covariate files (e.g PCA from `plink2`).
 
 ## Requirments
-The following software must be installed and available in the system environment ($PATH) before running the pipeline:
+The following software must be installed and available in the **system environment ($PATH)** before running the pipeline:
 - nextflow
 - ldak
 - plink 
 - bcftools
-- Python
+- python3
+
+**Note**: The executable names are case-sensitive and must exactly match those listed above.
+
 ## Quickstart
 ```sh
 nextflow run main.nf --snp_vcf_path test.snp.impute_biallelic_id.vcf \
@@ -32,7 +35,6 @@ All parameters can be provided either via the command line or a Nextflow configu
 | `--sv_vcf_path` | Path to the SV VCF file | Yes |
 | `--phenotypes_dir` | Directory containing phenotype `.tsv` files | Yes |
 | `--covar_path` | Covariate file (e.g. PCA eigenvectors) | No |
-| `--vcf_preprocess_model` | VCF preprocessing strategy. `none`: assume the input VCF has already been preprocessed, including being biallelic and having variant IDs assigned according to variant type. `biallelic`: normalize the input VCF by splitting multi-allelic variants into biallelic records. `delete_multi_allele`: retain only biallelic sites by removing multi-allelic variants. | `none` |
 | `--maf` | Minor allele frequency threshold used in PLINK | `0.05` |
 | `--kinship_power` | LDAK kinship power parameter | `-0.25` |
 | `--window_prune` | LD pruning threshold for LDAK thinning | `0.98` |
