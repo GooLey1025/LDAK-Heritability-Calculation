@@ -18,7 +18,7 @@ nextflow run main.nf --snp_vcf_path test.snp.impute_biallelic_id.vcf \
     --indel_vcf_path test.indel.impute_biallelic_id.vcf \
     --sv_vcf_path test.sv.impute_biallelic_id.vcf \
     --phenotypes_dir phenotypes/705rice/ \
-    --outdir test_output \  
+    --outdir test_output
 ```
 You will see the final formatted result at `test_output/heritability_summary/heritability_summary.xlsx`.
 
