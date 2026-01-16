@@ -12,7 +12,7 @@ The following software must be installed and available in the **system environme
 
 **Note**: The executable names are case-sensitive and must exactly match those listed above.
 
-## Quickstart
+## Quick Start
 ```sh
 nextflow run main.nf --snp_vcf_path test.snp.impute_biallelic_id.vcf \
     --indel_vcf_path test.indel.impute_biallelic_id.vcf \
