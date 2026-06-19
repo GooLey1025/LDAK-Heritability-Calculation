@@ -7,9 +7,9 @@ params.sv_vcf_path = 'raw_vcf/705rice.graph.0.5_0.05.sv.impute.biallelic.id.vcf'
 params.phenotypes_dir = 'phenotypes/705rice'
 params.outdir = '705rice_graph_0.5_0.05'
 params.script_dir = file('scripts').toRealPath()
-params.kinship_power = -.25
+params.kinship_power = -.5
 params.maf = 0.05
-params.covar_path = "pca_calculate/705rice.snp.indel.graph.pca.eigenvec" // Optional: You can provide the covar file path, if not provided, no covariate will be used
+params.covar_path = "" // Optional: You can provide the covar file path, if not provided, no covariate will be used
 params.window_prune = 0.98
 params.covar_file = params.covar_path ? file(params.covar_path) : null
 

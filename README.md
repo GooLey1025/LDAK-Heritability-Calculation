@@ -38,7 +38,7 @@ All parameters can be provided either via the command line or a Nextflow configu
 | `--phenotypes_dir` | Directory containing phenotype `.tsv` files | Yes |
 | `--covar_path` | Covariate file (e.g. PCA eigenvectors) | No |
 | `--maf` | Minor allele frequency threshold used in PLINK | `0.05` |
-| `--kinship_power` | LDAK kinship power parameter | `-0.25` |
+| `--kinship_power` | LDAK kinship power parameter | `-0.5` |
 | `--window_prune` | LD pruning threshold for LDAK thinning | `0.98` |
 | `--outdir` | Output directory for all results | `results/` |
 
@@ -74,18 +74,19 @@ Please preprocess all phenotype files accordingly. In general, make sure they fo
 2. Missing values must be coded as NA, not -9. Unlike `plink`, `ldak` does not support `-9` 
 
 ### Example: Covariate (PCA) calculation (Optional)
-Covariates (e.g. PCA) can be generated from merged SNP and INDEL VCFs after VCF preprocessing.
+Covariates (e.g. PCA) can be generated from merged SNP and INDEL VCFs.
 ```sh
-cd pca_culate
-P=705rice
-MODE=biallelic.id
-bgzip -@ 24 ../$P/$MODE/$P.snp.$MODE.vcf -c  > $P.snp.$MODE.vcf.gz
-bcftools index --threads 24 $P.snp.$MODE.vcf.gz
-bgzip -@ 24 ../$P/$MODE/$P.indel.$MODE.vcf -c  > $P.indel.$MODE.vcf.gz
-bcftools index --threads 24 $P.indel.$MODE.vcf.gz
-bcftools concat --threads 24 -a $P.snp.$MODE.vcf.gz $P.indel.$MODE.vcf.gz -Oz -o $P.snp.indel.$MODE.vcf.gz
+mkdir -p pca_calculate
+cd pca_calculate
 
-plink2 --vcf $P.snp.indel.$MODE.vcf.gz --double-id --make-pgen --maf 0.05 --out $P.snp.indel --threads 24
-plink2 --pfile $P.snp.indel --pca 5 --out $P.snp.indel.graph.pca5 --threads 24
+# example for 1171rice
+bcftools index 1171rice.0.5_0.05.full.indel.impute.biallelic.id.format.vcf.gz
+bcftools index 1171rice.0.5_0.05.full.snp.impute.biallelic.id.format.vcf.gz
+bcftools concat --threads 24 -a ../1171rice.0.5_0.05.full.snp.impute.biallelic.id.format.vcf.gz ../1171rice.0.5_0.05.full.indel.impute.biallelic.id.format.vcf.gz -o 1171rice.0.5_0.05.full.snp_indel.impute.biallelic.id.format.vcf.gz
+plink2 --vcf 1171rice.0.5_0.05.full.snp_indel.impute.biallelic.id.format.vcf.gz --double-id --make-pgen --maf 0.05 --out 1171rice.snp.indel --threads 24
+plink2 --pfile 1171rice.snp.indel --pca 5 --out 1171rice.snp.indel.pca5 --threads 24
+cd ..
+# output pca file: pca_calculate/1171rice.snp.indel.pca5.eigenvec
+nextflow run main.nf --snp_vcf_path 1171rice.0.5_0.05.full.snp.impute.biallelic.id.format.vcf.gz --indel_vcf_path 1171rice.0.5_0.05.full.indel.impute.biallelic.id.format.vcf.gz --sv_vcf_path 1171rice.0.5_0.05.full.sv.impute.biallelic.id.format.vcf.gz --phenotypes_dir phenotypes/1171rice/ --covar_path pca_calculate/1171rice.snp.indel.pca5.eigenvec --outdir 1171rice
 ```
 
